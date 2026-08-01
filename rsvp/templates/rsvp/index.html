@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Арина и Артём - Приглашение</title>
+    {% load static %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Cormorant:ital@0;1&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --blue: #8297ab;
+            --blue-deep: #5f7590;
+            --ink: #2b2620;
+            --paper: #f3ede4;
+            --lavender: #b7a0c4;
+            --burgundy: #5c1620;
+            --brown: #3d2a20;
+            --pink: #d792a8;
+            --mint: #b7c491;
+            --yellow: #e3c265;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            overflow-x: hidden;
+            background: var(--blue);
+            color: var(--ink);
+        }
+
+        .serif { font-family: 'Cormorant Garamond', serif; }
+
+        .section {
+            width: 100%;
+            position: relative;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center top;
+            aspect-ratio: 393 / 852;
+        }
+
+        /* ===== СЕКЦИЯ 1: ПАРА НА ДИСКО-ШАРЕ ===== */
+        .section-couple {
+            background-image: url('{% static "images/couple.png" %}');
+            background-color: var(--blue);
+        }
+
+        .section-couple .title {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            width: 100%;
+        }
+
+        .section-couple h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            font-style: italic;
+            font-size: 2.5em;
+            letter-spacing: 0.02em;
+            color: #fdfbf7;
+            line-height: 1.05;
+            text-shadow: 0 1px 10px rgba(0,0,0,0.15);
+        }
+
+        .section-couple .subtitle {
+            font-family: 'Jost', sans-serif;
+            font-size: 0.68em;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: #eef1f4;
+            margin-top: 8px;
+        }
+
+        .section-couple .scroll-hint {
+            position: absolute;
+            bottom: 3%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.62em;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #f4f1ec;
+            background: rgba(30,30,32,0.32);
+            padding: 6px 16px;
+            border-radius: 20px;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ===== СЕКЦИЯ 2: АНКЕТА ===== */
+        .section-rsvp {
+            background-color: var(--paper);
+            background-image: url('{% static "images/lace-frame.png" %}');
+            aspect-ratio: auto;
+            padding: 12% 0 10%;
+        }
+
+        .section-rsvp .rsvp-title {
+            text-align: center;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .section-rsvp .eyebrow {
+            display: block;
+            font-size: 0.68em;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--blue-deep);
+            margin-bottom: 10px;
+        }
+
+        .section-rsvp h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 2.6em;
+            color: var(--brown);
+        }
+
+        .section-rsvp .rsvp-sub {
+            font-size: 0.85em;
+            font-weight: 300;
+            color: #6b6053;
+            text-align: center;
+            line-height: 1.6;
+            margin-top: 12px;
+        }
+
+        .rsvp-form {
+            width: 78%;
+            max-width: 340px;
+            margin: 8% auto 0;
+        }
+
+        .rsvp-form .main-label {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25em;
+            font-weight: 600;
+            color: var(--brown);
+            margin-bottom: 8px;
+            margin-top: 22px;
+        }
+
+        .rsvp-form input[type="text"] {
+            width: 100%;
+            padding: 8px 4px;
+            font-size: 1em;
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            color: var(--ink);
+            border: none;
+            border-bottom: 1.5px solid var(--lavender);
+            background: transparent;
+            outline: none;
+        }
+
+        .rsvp-form input[type="text"]::placeholder { color: #b3a99a; }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin: 9px 0;
+            font-size: 0.92em;
+            font-weight: 300;
+            color: #4a4238;
+        }
+
+        .checkbox-item input {
+            margin-right: 10px;
+            width: 17px;
+            height: 17px;
+            accent-color: var(--burgundy);
+        }
+        .checkbox-item label { margin: 0 !important; font-size: 1em !important; cursor: pointer; }
+
+        .drinks-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px 10px;
+        }
+
+        /* ===== СЕКЦИЯ 3: ТЕПЛОХОД ===== */
+        .section-boat {
+            background-image: url('{% static "images/boat.png" %}');
+            background-color: #7a7f86;
+        }
+
+        .section-boat .invite-text {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 1.2em;
+            color: #2b2620;
+            text-align: center;
+            line-height: 1.45;
+            width: 74%;
+            max-width: 290px;
+            background: rgba(253,251,247,0.72);
+            padding: 14px 18px;
+            border-radius: 4px;
+            backdrop-filter: blur(2px);
+        }
+
+        .section-boat .boat-name {
+            position: absolute;
+            top: 44%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Jost', sans-serif;
+            font-size: 0.95em;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #2b2620;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .section-boat .boat-details {
+            position: absolute;
+            top: 49%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            font-size: 0.82em;
+            color: #3d3a34;
+            text-align: center;
+            line-height: 1.7;
+            letter-spacing: 0.02em;
+        }
+
+        /* ===== СЕКЦИЯ 4: ДАТА И ДРЕСС-КОД ===== */
+        .section-date {
+            background-image: url('{% static "images/date-dress.png" %}');
+            background-color: var(--paper);
+        }
+
+        .section-date .save-date {
+            position: absolute;
+            top: 4.5%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.62em;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: #6b6053;
+            text-align: center;
+            width: 90%;
+        }
+
+        .section-date .dress-title {
+            position: absolute;
+            top: 26%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 2em;
+            color: var(--brown);
+            text-align: center;
+            width: 90%;
+        }
+
+        .section-date .dress-text {
+            position: absolute;
+            top: 33%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8em;
+            font-weight: 300;
+            color: #5c5346;
+            text-align: center;
+            line-height: 1.55;
+            width: 76%;
+            max-width: 300px;
+        }
+
+        .section-date .dress-note {
+            position: absolute;
+            top: 76%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7em;
+            font-weight: 300;
+            font-style: italic;
+            color: #5c5346;
+            text-align: center;
+            line-height: 1.6;
+            width: 76%;
+            max-width: 300px;
+            background: rgba(243,237,228,0.65);
+            padding: 8px 10px;
+            border-radius: 4px;
+        }
+
+        /* ===== СЕКЦИЯ 5: ПОДАРКИ ===== */
+        .section-gift {
+            aspect-ratio: auto;
+            background-color: var(--blue);
+            background-image:
+                radial-gradient(circle at 12% 90%, rgba(227,197,101,0.16), transparent 45%),
+                radial-gradient(circle at 88% 10%, rgba(255,255,255,0.10), transparent 40%);
+            padding: 13% 0 11%;
+            text-align: center;
+        }
+
+        .section-gift .eyebrow {
+            display: block;
+            font-size: 0.68em;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: #eef1f4;
+            margin-bottom: 10px;
+        }
+
+        .section-gift h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 2.3em;
+            color: #fdfbf7;
+        }
+
+        .section-gift .gift-text {
+            font-size: 0.85em;
+            font-weight: 300;
+            color: #eef1f4;
+            line-height: 1.65;
+            width: 76%;
+            max-width: 300px;
+            margin: 14px auto 0;
+        }
+
+        .section-gift img {
+            display: block;
+            width: 58%;
+            max-width: 230px;
+            margin: 6% auto 0;
+            filter: drop-shadow(0 14px 24px rgba(0,0,0,0.25));
+        }
+
+        /* ===== СЕКЦИЯ 6: КНОПКА ОТПРАВКИ И СТАТИСТИКА ===== */
+        .section-final {
+            aspect-ratio: auto;
+            background-color: var(--burgundy);
+            padding: 10% 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 78%;
+            max-width: 340px;
+            padding: 16px;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.6em;
+            background: #fdfbf7;
+            color: var(--burgundy);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+
+        .stats-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 24px;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.85em;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(253,251,247,0.7);
+            border: 1px solid rgba(253,251,247,0.3);
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .stats-btn:hover {
+            color: #fdfbf7;
+            border-color: rgba(253,251,247,0.7);
+            background: rgba(253,251,247,0.1);
+        }
+
+        .final-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.3em;
+            color: #fdfbf7;
+            margin-bottom: 10px;
+        }
+
+        /* АДАПТИВ */
+        @media (max-width: 380px) {
+            .section-couple h1 { font-size: 2.4em; }
+            .section-rsvp h2 { font-size: 2.2em; }
+            .section-boat .invite-text { font-size: 1.15em; }
+            .section-date .dress-title { font-size: 1.7em; }
+        }
+        @media (min-width: 600px) {
+            body { display: flex; justify-content: center; background: var(--blue-deep); }
+            .site-wrap { width: 420px; box-shadow: 0 0 60px rgba(0,0,0,0.25); }
+        }
+        .errorlist {
+            color: #b91c1c;
+            font-size: 0.85em;
+            margin-top: 4px;
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+<div class="site-wrap">
+
+    <!-- СЕКЦИЯ 1: ПАРА НА ДИСКО-ШАРЕ -->
+    <section class="section section-couple">
+        <div class="title">
+            <h1>Арина &amp; Артём</h1>
+            <p class="subtitle">Приглашают вас на свадьбу</p>
+        </div>
+        <p class="scroll-hint">Листайте вниз ✦</p>
+    </section>
+
+    <!-- СЕКЦИЯ 2: АНКЕТА -->
+    <section class="section section-rsvp">
+        <div class="rsvp-title">
+            <span class="eyebrow">RSVP</span>
+            <h2>Анкета гостя</h2>
+            <p class="rsvp-sub">Чтобы мы знали, сколько стульев и<br>бокалов готовить —<br>заполните анкету до 01.09.2026</p>
+        </div>
+
+        <div class="rsvp-form">
+            <form method="post" action="{% url 'index' %}">
+                {% csrf_token %}
+                
+                <label class="main-label">Ваше имя и фамилия</label>
+                <input type="text" name="name" required placeholder="Иван Иванов">
+                {% if form.name.errors %}
+                    <ul class="errorlist">{{ form.name.errors }}</ul>
+                {% endif %}
+
+                <label class="main-label">Будете ли вы на мероприятии?</label>
+                {% if form.attendance.errors %}
+                    <ul class="errorlist">{{ form.attendance.errors }}</ul>
+                {% endif %}
+                <div class="checkbox-item">
+                    <input type="radio" name="attendance" value="yes" id="yes" required>
+                    <label for="yes">Обязательно буду!</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="radio" name="attendance" value="no" id="no">
+                    <label for="no">К сожалению, не смогу</label>
+                </div>
+
+                <label class="main-label">Если пьёте, то что:</label>
+                <div class="drinks-grid">
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="drinks" value="Шампанское" id="champagne">
+                        <label for="champagne">Шампанское</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="drinks" value="Вино красное" id="redwine">
+                        <label for="redwine">Вино красное</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="drinks" value="Вино белое" id="whitewine">
+                        <label for="whitewine">Вино белое</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="drinks" value="Водка" id="vodka">
+                        <label for="vodka">Водка</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="drinks" value="Текила" id="tequila">
+                        <label for="tequila">Текила</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="drinks" value="Джин" id="gin">
+                        <label for="gin">Джин</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" name="drinks" value="Коньяк" id="cognac">
+                        <label for="cognac">Коньяк</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- СЕКЦИЯ 3: ТЕПЛОХОД -->
+    <section class="section section-boat">
+        <div class="invite-text">
+            Мы выбрали друг друга,<br>
+            а вас выбираем в свидетели<br>
+            нашего счастья и приглашаем<br>
+            на свадьбу
+        </div>
+
+        <div class="boat-name">Теплоход «Богема»</div>
+
+        <div class="boat-details">
+            Время посадки: 17:30<br>
+            Место: Южный речной вокзал
+        </div>
+    </section>
+
+    <!-- СЕКЦИЯ 4: ДАТА И ДРЕСС-КОД -->
+    <section class="section section-date">
+        <p class="save-date">Запомните эту дату</p>
+        <div class="dress-title">Дресс-код</div>
+        <p class="dress-text">
+            Мы не заявляем о строгом дресс-коде,<br>
+            но будем рады видеть вас в нарядах,<br>
+            соответствующих нашей<br>
+            дофаминовой палитре
+        </p>
+        <p class="dress-note">
+            Главное — чтобы вам было удобно и комфортно.<br>
+            Будем создавать яркое настроение вместе.<br>
+            P.S. и красивые фотографии тоже
+        </p>
+    </section>
+
+    <!-- СЕКЦИЯ 5: ПОДАРКИ -->
+    <section class="section section-gift">
+        <span class="eyebrow">Подарки</span>
+        <h2>Вместо цветов</h2>
+        <p class="gift-text">
+            Цветы, увы, вянут — а нам хочется сохранить этот день подольше.<br><br>
+            Самый ценный подарок — ваше присутствие. Но если хочется порадовать нас чем-то ещё, будем благодарны конверту с тёплыми словами.
+        </p>
+        <img src="{% static 'images/enveple.png' %}" alt="Конверт с открыткой и подарком">
+    </section>
+
+    <!-- СЕКЦИЯ 6: КНОПКА ОТПРАВКИ + СТАТИСТИКА -->
+    <section class="section-final">
+        <p class="final-text">Заполнили анкету? Отправляйте!</p>
+        <button type="submit" class="submit-btn" onclick="document.querySelector('form').submit()">До встречи! ✦</button>
+        <a href="{% url 'stats' %}" class="stats-btn">📊 Статистика ответов</a>
+    </section>
+
+</div>
+</body>
+</html>

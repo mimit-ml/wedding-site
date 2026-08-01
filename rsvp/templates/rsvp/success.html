@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Спасибо! - Арина и Артём</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Jost', sans-serif;
+            background: linear-gradient(135deg, #8297ab 0%, #5f7590 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .success-container {
+            background: rgba(253, 251, 247, 0.95);
+            padding: 60px 40px;
+            border-radius: 8px;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 3em;
+            color: #5c1620;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2em;
+            color: #3d2a20;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .heart {
+            font-size: 4em;
+            margin: 20px 0;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #8297ab;
+            text-decoration: none;
+            font-size: 0.95em;
+            border-bottom: 1px solid #8297ab;
+            padding-bottom: 2px;
+        }
+        .back-link:hover {
+            color: #5f7590;
+            border-bottom-color: #5f7590;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="success-container">
+        <div class="heart">💕</div>
+        <h1>Спасибо!</h1>
+        <p>Мы получили ваш ответ и очень ждём встречи!<br>До скорого на свадьбе! ✦</p>
+        <a href="{% url 'index' %}" class="back-link">Вернуться на главную</a>
+    </div>
+</body>
+</html>
