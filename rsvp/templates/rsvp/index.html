@@ -15,13 +15,14 @@
             --paper: #f3ede4;
             --lavender: #b7a0c4;
             --burgundy: #5c1620;
+            
             --brown: #3d2a20;
             --pink: #d792a8;
             --mint: #b7c491;
             --yellow: #e3c265;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; font-size: 18px; }
         body {
             font-family: 'Jost', sans-serif;
             font-weight: 300;
@@ -41,52 +42,67 @@
             aspect-ratio: 393 / 852;
         }
 
+        /* Doily photo + "Женимся!.." text bleed across the couple->boat seam: same two assets,
+           positioned per each section's own 393x852 frame coordinates from Figma (nodes 39:90/132:93
+           and 76:8/132:418), so the artwork lines up pixel-for-pixel when the sections stack. */
+        .doily-photo {
+            position: absolute;
+            left: -80.15%;
+            width: 225.00%;
+            height: 108.77%;
+            pointer-events: none;
+        }
+        .section-couple .doily-photo { top: 55.86%; }
+        .section-boat .doily-photo { top: -44.25%; }
+
+        .greeting-text {
+            position: absolute;
+            left: 16.03%;
+            width: 43.68%;
+            height: 22.38%;
+            pointer-events: none;
+        }
+        .section-couple .greeting-text { top: 95.74%; }
+        .section-boat .greeting-text { top: -4.26%; }
+
         /* ===== СЕКЦИЯ 1: ПАРА НА ДИСКО-ШАРЕ ===== */
         .section-couple {
             background-image: url('{% static "images/couple.png" %}');
             background-color: var(--blue);
+            overflow: hidden;
         }
 
-        .section-couple .title {
+        /* Hand-vectorized signature, rotated to match the Figma reference exactly (native asset size, no scaling) */
+        .section-couple .signature {
             position: absolute;
-            top: 5%;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            width: 100%;
+            top: 16.08%;
+            left: 50.9%;
+            width: 65.8%;
+            transform: translate(-50%, -50%) rotate(-14.98deg);
         }
 
-        .section-couple h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 500;
-            font-style: italic;
-            font-size: 2.5em;
-            letter-spacing: 0.02em;
-            color: #fdfbf7;
-            line-height: 1.05;
-            text-shadow: 0 1px 10px rgba(0,0,0,0.15);
-        }
-
-        .section-couple .subtitle {
+        .section-couple .invite-label {
+            position: absolute;
+            top: 21.8%;
             font-family: 'Jost', sans-serif;
-            font-size: 0.68em;
-            letter-spacing: 0.26em;
-            text-transform: uppercase;
-            color: #eef1f4;
-            margin-top: 8px;
+            font-weight: 400;
+            font-size: 0.78em;
+            color: #2b2620;
         }
+        .section-couple .invite-label-left { left: 7.2%; }
+        .section-couple .invite-label-right { left: 71.8%; }
 
         .section-couple .scroll-hint {
             position: absolute;
             bottom: 3%;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.62em;
+            font-size: 0.7em;
             letter-spacing: 0.3em;
             text-transform: uppercase;
             color: #f4f1ec;
             background: rgba(30,30,32,0.32);
-            padding: 6px 16px;
+            padding: 7px 18px;
             border-radius: 20px;
             backdrop-filter: blur(2px);
         }
@@ -94,9 +110,28 @@
         /* ===== СЕКЦИЯ 2: АНКЕТА ===== */
         .section-rsvp {
             background-color: var(--paper);
-            background-image: url('{% static "images/lace-frame.png" %}');
             aspect-ratio: auto;
-            padding: 12% 0 10%;
+            padding: 14% 0 10%;
+        }
+
+        /* Single lace frame stretched once to fit the card exactly — no repeat-y, so it never tiles into a visible duplicate */
+        .rsvp-card {
+            position: relative;
+            width: 90%;
+            max-width: 360px;
+            margin: 0 auto;
+            background-image: url('{% static "images/lace-frame.png" %}');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            padding: 8% 8% 6%;
+        }
+
+        .rsvp-card::before {
+            content: '';
+            position: absolute;
+            inset: 9% 8%;
+            border: 1px dashed rgba(95,117,144,0.55);
+            pointer-events: none;
         }
 
         .section-rsvp .rsvp-title {
@@ -107,7 +142,7 @@
 
         .section-rsvp .eyebrow {
             display: block;
-            font-size: 0.68em;
+            font-size: 0.75em;
             letter-spacing: 0.32em;
             text-transform: uppercase;
             color: var(--blue-deep);
@@ -123,34 +158,33 @@
         }
 
         .section-rsvp .rsvp-sub {
-            font-size: 0.85em;
+            font-size: 0.95em;
             font-weight: 300;
-            color: #6b6053;
+            color: #5c5346;
             text-align: center;
-            line-height: 1.6;
-            margin-top: 12px;
+            line-height: 1.65;
+            margin-top: 14px;
         }
 
         .rsvp-form {
-            width: 78%;
-            max-width: 340px;
+            width: 100%;
             margin: 8% auto 0;
         }
 
         .rsvp-form .main-label {
             display: block;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.25em;
+            font-size: 1.35em;
             font-weight: 600;
             color: var(--brown);
-            margin-bottom: 8px;
-            margin-top: 22px;
+            margin-bottom: 10px;
+            margin-top: 26px;
         }
 
         .rsvp-form input[type="text"] {
             width: 100%;
-            padding: 8px 4px;
-            font-size: 1em;
+            padding: 10px 4px;
+            font-size: 1.1em;
             font-family: 'Jost', sans-serif;
             font-weight: 300;
             color: var(--ink);
@@ -165,78 +199,134 @@
         .checkbox-item {
             display: flex;
             align-items: center;
-            margin: 9px 0;
-            font-size: 0.92em;
+            min-height: 30px;
+            margin: 6px 0;
+            font-size: 1em;
             font-weight: 300;
+            line-height: 1.3;
             color: #4a4238;
         }
 
         .checkbox-item input {
-            margin-right: 10px;
-            width: 17px;
-            height: 17px;
+            flex: 0 0 auto;
+            margin: 0 10px 0 0;
+            width: 18px;
+            height: 18px;
             accent-color: var(--burgundy);
         }
-        .checkbox-item label { margin: 0 !important; font-size: 1em !important; cursor: pointer; }
+        .checkbox-item label {
+            margin: 0 !important;
+            font-size: 1em !important;
+            line-height: 1.3 !important;
+            cursor: pointer;
+        }
+
+        .errorlist {
+            color: #b91c1c;
+            font-size: 0.85em;
+            margin-top: 4px;
+            margin-bottom: 6px;
+            list-style: none;
+        }
 
         .drinks-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        /* ===== СЕКЦИЯ 3: ТЕПЛОХОД ===== */
+        /* Small silver disco-ball peek at the very top of the RSVP card, echoing the previous section */
+        .section-rsvp .disco-peek {
+            position: absolute;
+            top: -46px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+            z-index: 2;
+        }
+
+        /* ===== СЕКЦИЯ 3: ТЕПЛОХОД =====
+           Rebuilt directly from Figma node 132:87 coordinates (frame 393x852 => all
+           left/top/width/height below are that node's px values converted to %). */
         .section-boat {
-            background-image: url('{% static "images/boat.png" %}');
-            background-color: #7a7f86;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--blue);
         }
 
-        .section-boat .invite-text {
+        /* Base photo (node 132:91) already contains the disco ball blending straight into the
+           boat scene as one continuous image, full-bleed, so no separate disco-bg overlay is needed. */
+        .section-boat .boat-photo {
             position: absolute;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-weight: 500;
-            font-size: 1.2em;
-            color: #2b2620;
-            text-align: center;
-            line-height: 1.45;
-            width: 74%;
-            max-width: 290px;
-            background: rgba(253,251,247,0.72);
-            padding: 14px 18px;
-            border-radius: 4px;
-            backdrop-filter: blur(2px);
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
         }
 
-        .section-boat .boat-name {
+        /* "Теплоход" label, small and right-aligned, overlapping the top of the script signature below it */
+        .section-boat .boat-label {
             position: absolute;
-            top: 44%;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 67.94%;
+            top: 47.07%;
             font-family: 'Jost', sans-serif;
-            font-size: 0.95em;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+            font-weight: 300;
+            font-size: 0.72em;
             color: #2b2620;
-            text-align: center;
             white-space: nowrap;
+            text-shadow: 0 1px 6px rgba(255,255,255,0.6);
+            z-index: 2;
         }
+
+        /* Hand-vectorized "«Богема»" script asset (Figma node 96:57), positioned at its native frame coordinates */
+        .section-boat .boat-signature {
+            position: absolute;
+            left: 48.08%;
+            top: 46.45%;
+            width: 39.21%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* «»  quote marks (Figma nodes 132:545/132:546) — tiny standalone glyph images, not text */
+        .section-boat .boat-quote {
+            position: absolute;
+            top: 49.89%;
+            width: 2.46%;
+            height: 1.42%;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .section-boat .boat-quote-left { left: 44.20%; }
+        .section-boat .boat-quote-right { left: 88.60%; }
 
         .section-boat .boat-details {
             position: absolute;
-            top: 49%;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 55.94%;
+            left: 7.1%;
             font-family: 'Jost', sans-serif;
             font-weight: 300;
-            font-size: 0.82em;
-            color: #3d3a34;
-            text-align: center;
+            font-size: 0.85em;
+            color: #2b2620;
+            text-align: left;
             line-height: 1.7;
             letter-spacing: 0.02em;
+            text-shadow: 0 1px 6px rgba(255,255,255,0.6);
+            z-index: 2;
+        }
+
+        /* Gold star confetti spilling off the left edge over the boat photo (node 132:92) */
+        .section-boat .boat-stars {
+            position: absolute;
+            left: -17.8%;
+            top: 73.4%;
+            width: 53.2%;
+            z-index: 2;
+            pointer-events: none;
         }
 
         /* ===== СЕКЦИЯ 4: ДАТА И ДРЕСС-КОД ===== */
@@ -245,190 +335,184 @@
             background-color: var(--paper);
         }
 
-        .section-date .save-date {
+        /* Star cluster bleeding down from the boat section's own .boat-stars (same asset, same
+           left/width — only top differs per frame), plus an independent cluster near the swatches. */
+        .section-date .stars-top {
             position: absolute;
-            top: 4.5%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.62em;
-            letter-spacing: 0.28em;
-            text-transform: uppercase;
-            color: #6b6053;
-            text-align: center;
-            width: 90%;
+            left: -17.81%;
+            top: -26.76%;
+            width: 53.18%;
+            height: 31.57%;
+            pointer-events: none;
+        }
+        .section-date .stars-bottom {
+            position: absolute;
+            left: 63.11%;
+            top: 86.97%;
+            width: 53.18%;
+            height: 31.57%;
+            pointer-events: none;
         }
 
+        .section-date .save-tag {
+            position: absolute;
+            left: 12.51%;
+            top: 4.76%;
+            width: 16.18%;
+            transform: translateX(-50%);
+        }
+
+        .section-date .save-value {
+            position: absolute;
+            left: 58.79%;
+            top: 3.74%;
+            width: 50.92%;
+            transform: translateX(-50%);
+        }
+
+        /* Hand-lettered text assets (Figma nodes 132:118/132:128/132:228), rotated -6.01deg to match
+           the tilted swatch card — positioned by center point, same technique as .section-couple .signature */
         .section-date .dress-title {
             position: absolute;
-            top: 26%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-weight: 500;
-            font-size: 2em;
-            color: var(--brown);
-            text-align: center;
-            width: 90%;
+            left: 24.66%;
+            top: 44.49%;
+            width: 45.24%;
+            transform: translate(-50%, -50%) rotate(-6.01deg);
         }
 
         .section-date .dress-text {
             position: absolute;
-            top: 33%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8em;
-            font-weight: 300;
-            color: #5c5346;
-            text-align: center;
-            line-height: 1.55;
-            width: 76%;
-            max-width: 300px;
+            left: 71.78%;
+            top: 45.27%;
+            width: 34.50%;
+            transform: translate(-50%, -50%) rotate(-6.01deg);
         }
 
         .section-date .dress-note {
             position: absolute;
-            top: 76%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.7em;
-            font-weight: 300;
-            font-style: italic;
-            color: #5c5346;
-            text-align: center;
-            line-height: 1.6;
-            width: 76%;
-            max-width: 300px;
-            background: rgba(243,237,228,0.65);
-            padding: 8px 10px;
-            border-radius: 4px;
+            left: 53.55%;
+            top: 85.56%;
+            width: 69.41%;
+            transform: translate(-50%, -50%) rotate(-6.01deg);
         }
 
-        /* ===== СЕКЦИЯ 5: ПОДАРКИ ===== */
+        /* ===== СЕКЦИЯ 5: ПОДАРКИ =====
+           Figma node 132:377, a 393x451 sub-frame — NOT the standard 393x852 frame used
+           elsewhere, so this section is its own aspect-ratio rather than using .section. */
         .section-gift {
-            aspect-ratio: auto;
-            background-color: var(--blue);
-            background-image:
-                radial-gradient(circle at 12% 90%, rgba(227,197,101,0.16), transparent 45%),
-                radial-gradient(circle at 88% 10%, rgba(255,255,255,0.10), transparent 40%);
-            padding: 13% 0 11%;
-            text-align: center;
+            position: relative;
+            width: 100%;
+            aspect-ratio: 393 / 451;
+            overflow: hidden;
+            background-image: url('{% static "images/gift-bg-texture.png" %}');
+            background-size: cover;
+            background-position: top center;
         }
-
-        .section-gift .eyebrow {
-            display: block;
-            font-size: 0.68em;
-            letter-spacing: 0.32em;
-            text-transform: uppercase;
-            color: #eef1f4;
-            margin-bottom: 10px;
+        .section-gift .gift-stars {
+            position: absolute;
+            left: 63.11%;
+            top: -25.06%;
+            width: 53.18%;
+            height: 59.65%;
+            pointer-events: none;
         }
-
-        .section-gift h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-weight: 500;
-            font-size: 2.3em;
-            color: #fdfbf7;
+        .section-gift .gift-envelope {
+            position: absolute;
+            left: -2.54%;
+            top: -7.76%;
+            width: 100.25%;
+            height: 108.87%;
+            object-fit: cover;
+            filter: drop-shadow(0 16px 30px rgba(0,0,0,0.4));
         }
-
-        .section-gift .gift-text {
-            font-size: 0.85em;
-            font-weight: 300;
-            color: #eef1f4;
-            line-height: 1.65;
-            width: 76%;
-            max-width: 300px;
-            margin: 14px auto 0;
+        .section-gift .gift-note {
+            position: absolute;
+            left: 46.77%;
+            top: 18.43%;
+            width: 56.38%;
+            transform: translateX(-50%);
+            pointer-events: none;
         }
-
-        .section-gift img {
-            display: block;
-            width: 58%;
-            max-width: 230px;
-            margin: 6% auto 0;
-            filter: drop-shadow(0 14px 24px rgba(0,0,0,0.25));
+        .section-gift .gift-disco {
+            position: absolute;
+            pointer-events: none;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.35));
         }
+        .section-gift .gift-disco-1 { left: 1.65%; top: 87.47%; width: 64.38%; transform: translate(-50%, -50%) rotate(-13.8deg); }
+        .section-gift .gift-disco-2 { left: 98.35%; top: 68.18%; width: 26.21%; transform: translate(-50%, -50%) rotate(-10.31deg); }
+        .section-gift .gift-disco-3 { left: 85.85%; top: 92.38%; width: 48.96%; transform: translate(-50%, -50%) rotate(12.12deg); }
 
         /* ===== СЕКЦИЯ 6: КНОПКА ОТПРАВКИ И СТАТИСТИКА ===== */
         .section-final {
             aspect-ratio: auto;
-            background-color: var(--burgundy);
-            padding: 10% 0;
+            background-color: var(--blue-deep);
+            background-image: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.08), transparent 55%);
+            padding: 14% 0 16%;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 22px;
         }
 
         .submit-btn {
-            display: block;
-            width: 78%;
-            max-width: 340px;
-            padding: 16px;
+            display: inline-block;
+            padding: 14px 52px;
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             font-size: 1.6em;
-            background: #fdfbf7;
-            color: var(--burgundy);
-            border: none;
-            border-radius: 4px;
+            background: transparent;
+            color: #fdfbf7;
+            border: 1.5px solid rgba(253,251,247,0.6);
+            border-radius: 30px;
             cursor: pointer;
             letter-spacing: 0.02em;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
         .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+            background: rgba(253,251,247,0.14);
+            border-color: #fdfbf7;
         }
 
         .stats-btn {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 2px;
+            padding: 11px 26px;
             font-family: 'Jost', sans-serif;
-            font-size: 0.85em;
-            letter-spacing: 0.15em;
+            font-size: 0.9em;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: rgba(253,251,247,0.7);
-            border: 1px solid rgba(253,251,247,0.3);
+            color: #fdfbf7;
+            border: 1px solid rgba(253,251,247,0.45);
             border-radius: 30px;
             text-decoration: none;
             transition: all 0.3s ease;
         }
         .stats-btn:hover {
-            color: #fdfbf7;
-            border-color: rgba(253,251,247,0.7);
-            background: rgba(253,251,247,0.1);
+            border-color: #fdfbf7;
+            background: rgba(253,251,247,0.14);
         }
 
         .final-text {
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
-            font-size: 1.3em;
+            font-size: 1.4em;
             color: #fdfbf7;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
         }
 
         /* АДАПТИВ */
         @media (max-width: 380px) {
-            .section-couple h1 { font-size: 2.4em; }
-            .section-rsvp h2 { font-size: 2.2em; }
+            html { font-size: 16px; }
+            .section-rsvp h2 { font-size: 2.1em; }
             .section-boat .invite-text { font-size: 1.15em; }
-            .section-date .dress-title { font-size: 1.7em; }
         }
         @media (min-width: 600px) {
             body { display: flex; justify-content: center; background: var(--blue-deep); }
-            .site-wrap { width: 420px; box-shadow: 0 0 60px rgba(0,0,0,0.25); }
-        }
-        .errorlist {
-            color: #b91c1c;
-            font-size: 0.85em;
-            margin-top: 4px;
-            list-style: none;
+            .site-wrap { width: 440px; box-shadow: 0 0 60px rgba(0,0,0,0.25); }
         }
     </style>
 </head>
@@ -437,15 +521,57 @@
 
     <!-- СЕКЦИЯ 1: ПАРА НА ДИСКО-ШАРЕ -->
     <section class="section section-couple">
-        <div class="title">
-            <h1>Арина &amp; Артём</h1>
-            <p class="subtitle">Приглашают вас на свадьбу</p>
-        </div>
+        <img class="signature" src="{% static 'images/signature.svg' %}" alt="Арина и Артём">
+        <span class="invite-label invite-label-left">Приглашают Вас</span>
+        <span class="invite-label invite-label-right">на свадьбу!</span>
+        <img class="doily-photo" src="{% static 'images/doily-photo.png' %}" alt="">
+        <img class="greeting-text" src="{% static 'images/greeting-text.svg' %}" alt="">
         <p class="scroll-hint">Листайте вниз ✦</p>
     </section>
 
-    <!-- СЕКЦИЯ 2: АНКЕТА -->
+    <!-- СЕКЦИЯ: ТЕПЛОХОД -->
+    <section class="section section-boat">
+        <img class="boat-photo" src="{% static 'images/boat.png' %}" alt="Теплоход «Богема» на реке">
+        <img class="doily-photo" src="{% static 'images/doily-photo.png' %}" alt="">
+        <img class="greeting-text" src="{% static 'images/greeting-text.svg' %}" alt="Женимся! Мы выбрали друг друга, а вас выбираем в свидетели нашего счастья и приглашаем на свадьбу">
+
+        <div class="boat-label">Теплоход</div>
+        <img class="boat-quote boat-quote-left" src="{% static 'images/quote-left.svg' %}" alt="">
+        <img class="boat-signature" src="{% static 'images/bogema-signature.svg' %}" alt="Богема">
+        <img class="boat-quote boat-quote-right" src="{% static 'images/quote-right.svg' %}" alt="">
+
+        <div class="boat-details">
+            Время посадки: 17:30<br>
+            Место: Южный речной вокзал
+        </div>
+        <img class="boat-stars" src="{% static 'images/stars.png' %}" alt="">
+    </section>
+
+    <!-- СЕКЦИЯ: ДАТА И ДРЕСС-КОД -->
+    <section class="section section-date">
+        <img class="stars-top" src="{% static 'images/stars.png' %}" alt="">
+        <img class="save-tag" src="{% static 'images/save-date-label.svg' %}" alt="Запомните эту дату:">
+        <img class="save-value" src="{% static 'images/save-date-value.svg' %}" alt="19.09.26">
+        <img class="dress-title" src="{% static 'images/dress-code-title.svg' %}" alt="Дресс-код">
+        <img class="dress-text" src="{% static 'images/dress-code-text.svg' %}" alt="Мы не заявляем о строгом дресс-коде, но будем рады видеть вас в нарядах, соответствующих нашей дофаминовой палитре!">
+        <img class="dress-note" src="{% static 'images/dress-code-note.svg' %}" alt="Главное — чтобы вам было удобно и комфортно! Будем создавать яркое настроение вместе. P.S. и красивые фотографии тоже">
+        <img class="stars-bottom" src="{% static 'images/stars.png' %}" alt="">
+    </section>
+
+    <!-- СЕКЦИЯ: ПОДАРКИ -->
+    <section class="section-gift">
+        <img class="gift-stars" src="{% static 'images/stars.png' %}" alt="">
+        <img class="gift-envelope" src="{% static 'images/enveple.png' %}" alt="Конверт с открыткой и подарком">
+        <img class="gift-note" src="{% static 'images/gift-note.svg' %}" alt="Главное для нас – ваше внимание, а радость доставит любой подарок в конверте!">
+        <img class="gift-disco gift-disco-1" src="{% static 'images/disco_ball.png' %}" alt="">
+        <img class="gift-disco gift-disco-2" src="{% static 'images/disco_ball.png' %}" alt="">
+        <img class="gift-disco gift-disco-3" src="{% static 'images/disco_ball.png' %}" alt="">
+    </section>
+
+    <!-- СЕКЦИЯ: АНКЕТА (заполняется последней, перед отправкой) -->
     <section class="section section-rsvp">
+        <img class="disco-peek" src="{% static 'images/disco_ball.png' %}" alt="">
+        <div class="rsvp-card">
         <div class="rsvp-title">
             <span class="eyebrow">RSVP</span>
             <h2>Анкета гостя</h2>
@@ -455,7 +581,7 @@
         <div class="rsvp-form">
             <form method="post" action="{% url 'index' %}">
                 {% csrf_token %}
-                
+
                 <label class="main-label">Ваше имя и фамилия</label>
                 <input type="text" name="name" required placeholder="Иван Иванов">
                 {% if form.name.errors %}
@@ -508,54 +634,10 @@
                 </div>
             </form>
         </div>
-    </section>
-
-    <!-- СЕКЦИЯ 3: ТЕПЛОХОД -->
-    <section class="section section-boat">
-        <div class="invite-text">
-            Мы выбрали друг друга,<br>
-            а вас выбираем в свидетели<br>
-            нашего счастья и приглашаем<br>
-            на свадьбу
-        </div>
-
-        <div class="boat-name">Теплоход «Богема»</div>
-
-        <div class="boat-details">
-            Время посадки: 17:30<br>
-            Место: Южный речной вокзал
         </div>
     </section>
 
-    <!-- СЕКЦИЯ 4: ДАТА И ДРЕСС-КОД -->
-    <section class="section section-date">
-        <p class="save-date">Запомните эту дату</p>
-        <div class="dress-title">Дресс-код</div>
-        <p class="dress-text">
-            Мы не заявляем о строгом дресс-коде,<br>
-            но будем рады видеть вас в нарядах,<br>
-            соответствующих нашей<br>
-            дофаминовой палитре
-        </p>
-        <p class="dress-note">
-            Главное — чтобы вам было удобно и комфортно.<br>
-            Будем создавать яркое настроение вместе.<br>
-            P.S. и красивые фотографии тоже
-        </p>
-    </section>
-
-    <!-- СЕКЦИЯ 5: ПОДАРКИ -->
-    <section class="section section-gift">
-        <span class="eyebrow">Подарки</span>
-        <h2>Вместо цветов</h2>
-        <p class="gift-text">
-            Цветы, увы, вянут — а нам хочется сохранить этот день подольше.<br><br>
-            Самый ценный подарок — ваше присутствие. Но если хочется порадовать нас чем-то ещё, будем благодарны конверту с тёплыми словами.
-        </p>
-        <img src="{% static 'images/enveple.png' %}" alt="Конверт с открыткой и подарком">
-    </section>
-
-    <!-- СЕКЦИЯ 6: КНОПКА ОТПРАВКИ + СТАТИСТИКА -->
+    <!-- СЕКЦИЯ: КНОПКА ОТПРАВКИ + СТАТИСТИКА -->
     <section class="section-final">
         <p class="final-text">Заполнили анкету? Отправляйте!</p>
         <button type="submit" class="submit-btn" onclick="document.querySelector('form').submit()">До встречи! ✦</button>
