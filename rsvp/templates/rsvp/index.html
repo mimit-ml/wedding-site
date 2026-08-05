@@ -6,7 +6,7 @@
     <title>Арина и Артём - Приглашение</title>
     {% load static %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Cormorant:ital@0;1&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Cormorant:ital@0;1&family=Jost:wght@300;400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
     <style>
         :root{
             --blue: #8297ab;
@@ -107,145 +107,168 @@
             backdrop-filter: blur(2px);
         }
 
-        /* ===== СЕКЦИЯ 2: АНКЕТА ===== */
+        /* ===== СЕКЦИЯ 2: АНКЕТА =====
+           Rebuilt 1:1 from Figma node 2:3 (393x852 frame) — all left/top/width/height below are
+           that node's own px/inset values converted to % of the 393x852 frame. The three field
+           headings ("Ваше имя и фамилия" / "Будете ли вы..." / "Если пьёте, то что?") and each
+           option label ("Обязательно буду!", "Шампанское", ...) are baked into hand-lettered SVGs
+           (rsvp-labels.svg, attend-*.svg, drink-*.svg) exported straight from Figma — real <input>/
+           <label> controls are layered transparently on top at the same coordinates so the form
+           stays functional. "До встречи!" (Figma node 2:141) lives inside this same frame, so the
+           submit button is positioned here too rather than in a separate section. */
         .section-rsvp {
-            background-color: var(--paper);
-            aspect-ratio: auto;
-            padding: 14% 0 10%;
-        }
-
-        /* Single lace frame stretched once to fit the card exactly — no repeat-y, so it never tiles into a visible duplicate */
-        .rsvp-card {
             position: relative;
-            width: 90%;
-            max-width: 360px;
-            margin: 0 auto;
-            background-image: url('{% static "images/lace-frame.png" %}');
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            padding: 8% 8% 6%;
+            background-color: #a9b8c5;
+            overflow: hidden;
         }
 
-        .rsvp-card::before {
-            content: '';
+        .section-rsvp .rsvp-disco {
             position: absolute;
-            inset: 9% 8%;
-            border: 1px dashed rgba(95,117,144,0.55);
+            pointer-events: none;
+            z-index: 5;
+        }
+        .section-rsvp .rsvp-disco-1 {
+            left: 1.146%; top: -7.570%; width: 64.376%;
+            transform: translate(-50%, -50%) rotate(-13.8deg);
+            filter: drop-shadow(5px -3px 4px rgba(0,0,0,0.25));
+        }
+        .section-rsvp .rsvp-disco-2 {
+            left: 85.836%; top: -5.207%; width: 48.960%;
+            transform: translate(-50%, -50%) rotate(12.12deg);
+            filter: drop-shadow(0px -1px 4px rgba(0,0,0,0.25));
+        }
+
+        .section-rsvp .rsvp-title-img {
+            position: absolute;
+            left: 50.055%; top: 8.135%; width: 66.425%;
+            transform: translate(-50%, -50%) rotate(-5.27deg);
             pointer-events: none;
         }
 
-        .section-rsvp .rsvp-title {
-            text-align: center;
-            width: 90%;
-            margin: 0 auto;
+        .section-rsvp .rsvp-subtitle-img {
+            position: absolute;
+            left: 49.969%; top: 16.141%; width: 53.507%;
+            transform: translateX(-50%);
+            pointer-events: none;
         }
 
-        .section-rsvp .eyebrow {
-            display: block;
-            font-size: 0.75em;
-            letter-spacing: 0.32em;
-            text-transform: uppercase;
-            color: var(--blue-deep);
-            margin-bottom: 10px;
+        .section-rsvp .rsvp-card-photo {
+            position: absolute;
+            left: 50%; top: 54.46%;
+            width: 107.634%; height: 62.207%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .section-rsvp h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-weight: 500;
-            font-size: 2.6em;
-            color: var(--brown);
+        .section-rsvp .rsvp-labels-img {
+            position: absolute;
+            left: 49.98%; top: 32.953%; width: 57.309%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 2;
         }
 
-        .section-rsvp .rsvp-sub {
-            font-size: 0.95em;
-            font-weight: 300;
-            color: #5c5346;
-            text-align: center;
-            line-height: 1.65;
-            margin-top: 14px;
-        }
+        .rsvp-form { position: absolute; inset: 0; z-index: 3; }
 
-        .rsvp-form {
-            width: 100%;
-            margin: 8% auto 0;
-        }
-
-        .rsvp-form .main-label {
-            display: block;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.35em;
-            font-weight: 600;
-            color: var(--brown);
-            margin-bottom: 10px;
-            margin-top: 26px;
+        .section-rsvp .rsvp-underline {
+            position: absolute;
+            left: 22.137%; top: 36.737%; width: 49.618%;
+            pointer-events: none;
         }
 
         .rsvp-form input[type="text"] {
-            width: 100%;
-            padding: 10px 4px;
-            font-size: 1.1em;
+            position: absolute;
+            left: 22.137%; top: 34.1%; width: 49.618%; height: 2.8%;
+            padding: 0;
+            font-size: 0.85em;
             font-family: 'Jost', sans-serif;
             font-weight: 300;
             color: var(--ink);
             border: none;
-            border-bottom: 1.5px solid var(--lavender);
             background: transparent;
             outline: none;
         }
-
         .rsvp-form input[type="text"]::placeholder { color: #b3a99a; }
 
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            min-height: 30px;
-            margin: 6px 0;
-            font-size: 1em;
-            font-weight: 300;
-            line-height: 1.3;
-            color: #4a4238;
+        .rsvp-option {
+            position: absolute;
+            transform: translateX(-50%);
         }
+        .rsvp-option img { display: block; width: 100%; pointer-events: none; }
 
-        .checkbox-item input {
-            flex: 0 0 auto;
-            margin: 0 10px 0 0;
-            width: 18px;
-            height: 18px;
-            accent-color: var(--burgundy);
-        }
-        .checkbox-item label {
-            margin: 0 !important;
-            font-size: 1em !important;
-            line-height: 1.3 !important;
+        /* Empty 8x8 outline squares (Figma nodes 2:247-2:255) doubling as the real
+           checkbox/radio inputs — appearance:none so the checked fill matches the design intent. */
+        .rsvp-form input[type="checkbox"],
+        .rsvp-form input[type="radio"] {
+            position: absolute;
+            left: 22.137%;
+            width: 8px; height: 8px;
+            margin: 0;
+            padding: 0;
+            -webkit-appearance: none;
+            appearance: none;
+            border: 0.75px solid #2b2620;
+            border-radius: 0;
+            background: transparent;
             cursor: pointer;
         }
-
-        .errorlist {
-            color: #b91c1c;
-            font-size: 0.85em;
-            margin-top: 4px;
-            margin-bottom: 6px;
-            list-style: none;
+        .rsvp-form input[type="checkbox"]:checked,
+        .rsvp-form input[type="radio"]:checked {
+            background: var(--burgundy);
         }
 
-        .drinks-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        #yes { top: 44.836%; }
+        .rsvp-attend-yes { left: 36.964%; top: 44.919%; width: 21.338%; }
+        #no { top: 46.244%; }
+        .rsvp-attend-no { left: 39.865%; top: 46.345%; width: 26.945%; }
 
-        /* Small silver disco-ball peek at the very top of the RSVP card, echoing the previous section */
-        .section-rsvp .disco-peek {
+        #champagne { top: 55.164%; }
+        .rsvp-drink-champagne { left: 33.761%; top: 55.265%; width: 14.736%; }
+        #redwine { top: 57.16%; }
+        .rsvp-drink-redwine { left: 34.288%; top: 57.261%; width: 15.793%; }
+        #whitewine { top: 59.155%; }
+        .rsvp-drink-whitewine { left: 33.008%; top: 59.238%; width: 13.231%; }
+        #vodka { top: 61.15%; }
+        .rsvp-drink-vodka { left: 29.865%; top: 61.251%; width: 6.944%; }
+        #tequila { top: 63.146%; }
+        .rsvp-drink-tequila { left: 30.265%; top: 63.246%; width: 8.132%; }
+        #gin { top: 65.141%; }
+        .rsvp-drink-gin { left: 29.359%; top: 65.242%; width: 6.298%; }
+        #cognac { top: 67.136%; }
+        .rsvp-drink-cognac { left: 30.44%; top: 67.237%; width: 8.094%; }
+
+        .rsvp-form .errorlist {
             position: absolute;
-            top: -46px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
-            z-index: 2;
+            left: 22.137%; width: 49.618%;
+            color: #b91c1c;
+            font-size: 0.65em;
+            list-style: none;
+            pointer-events: none;
+        }
+        .rsvp-name-errors { top: 37.3%; }
+        .rsvp-attend-errors { top: 47.8%; }
+        .rsvp-drinks-errors { top: 68.3%; }
+
+        .rsvp-submit-btn {
+            position: absolute;
+            left: 50.305%; top: 92.56%; width: 68.719%;
+            transform: translate(-50%, -50%) rotate(-5.82deg);
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            z-index: 4;
+        }
+        .rsvp-submit-btn img { display: block; width: 100%; pointer-events: none; }
+
+        /* ===== СЕКЦИЯ: ССЫЛКА НА СТАТИСТИКУ (не часть дизайна Figma) ===== */
+        .section-stats-link {
+            aspect-ratio: auto;
+            background-color: var(--blue);
+            padding: 6% 0 10%;
+            text-align: center;
         }
 
         /* ===== СЕКЦИЯ 3: ТЕПЛОХОД =====
@@ -408,6 +431,18 @@
             background-size: cover;
             background-position: top center;
         }
+        /* Same dress-code swatch-card photo as the date section (node 132:116), continuing to
+           bleed down into this frame (node 132:384) — real Figma asset, not an approximation. */
+        .section-gift .gift-card-bleed {
+            position: absolute;
+            left: 49.62%;
+            top: -63.97%;
+            width: 104.89%;
+            height: 121.78%;
+            object-fit: cover;
+            transform: translate(-50%, -50%) rotate(-8.26deg);
+            pointer-events: none;
+        }
         .section-gift .gift-stars {
             position: absolute;
             left: 63.11%;
@@ -442,72 +477,30 @@
         .section-gift .gift-disco-2 { left: 98.35%; top: 68.18%; width: 26.21%; transform: translate(-50%, -50%) rotate(-10.31deg); }
         .section-gift .gift-disco-3 { left: 85.85%; top: 92.38%; width: 48.96%; transform: translate(-50%, -50%) rotate(12.12deg); }
 
-        /* ===== СЕКЦИЯ 6: КНОПКА ОТПРАВКИ И СТАТИСТИКА ===== */
-        .section-final {
-            aspect-ratio: auto;
-            background-color: var(--blue-deep);
-            background-image: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.08), transparent 55%);
-            padding: 14% 0 16%;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 22px;
-        }
-
-        .submit-btn {
-            display: inline-block;
-            padding: 14px 52px;
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 1.6em;
-            background: transparent;
-            color: #fdfbf7;
-            border: 1.5px solid rgba(253,251,247,0.6);
-            border-radius: 30px;
-            cursor: pointer;
-            letter-spacing: 0.02em;
-            transition: all 0.3s ease;
-        }
-        .submit-btn:hover {
-            background: rgba(253,251,247,0.14);
-            border-color: #fdfbf7;
-        }
-
         .stats-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            margin-top: 2px;
-            padding: 11px 26px;
+            gap: 6px;
+            margin-top: 6px;
+            padding: 9px 22px;
             font-family: 'Jost', sans-serif;
-            font-size: 0.9em;
-            letter-spacing: 0.14em;
+            font-size: 0.8em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: #fdfbf7;
-            border: 1px solid rgba(253,251,247,0.45);
+            color: #201d1a;
+            border: 1px solid rgba(32,29,26,0.35);
             border-radius: 30px;
             text-decoration: none;
             transition: all 0.3s ease;
         }
         .stats-btn:hover {
-            border-color: #fdfbf7;
-            background: rgba(253,251,247,0.14);
-        }
-
-        .final-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 1.4em;
-            color: #fdfbf7;
-            margin-bottom: 4px;
+            border-color: #201d1a;
+            background: rgba(32,29,26,0.08);
         }
 
         /* АДАПТИВ */
         @media (max-width: 380px) {
             html { font-size: 16px; }
-            .section-rsvp h2 { font-size: 2.1em; }
             .section-boat .invite-text { font-size: 1.15em; }
         }
         @media (min-width: 600px) {
@@ -562,85 +555,66 @@
     <section class="section-gift">
         <img class="gift-stars" src="{% static 'images/stars.png' %}" alt="">
         <img class="gift-envelope" src="{% static 'images/enveple.png' %}" alt="Конверт с открыткой и подарком">
+        <img class="gift-card-bleed" src="{% static 'images/gift-card-bleed.png' %}" alt="">
         <img class="gift-note" src="{% static 'images/gift-note.svg' %}" alt="Главное для нас – ваше внимание, а радость доставит любой подарок в конверте!">
         <img class="gift-disco gift-disco-1" src="{% static 'images/disco_ball.png' %}" alt="">
         <img class="gift-disco gift-disco-2" src="{% static 'images/disco_ball.png' %}" alt="">
         <img class="gift-disco gift-disco-3" src="{% static 'images/disco_ball.png' %}" alt="">
     </section>
 
-    <!-- СЕКЦИЯ: АНКЕТА (заполняется последней, перед отправкой) -->
+    <!-- СЕКЦИЯ: АНКЕТА (Figma node 2:3, 1:1) -->
     <section class="section section-rsvp">
-        <img class="disco-peek" src="{% static 'images/disco_ball.png' %}" alt="">
-        <div class="rsvp-card">
-        <div class="rsvp-title">
-            <span class="eyebrow">RSVP</span>
-            <h2>Анкета гостя</h2>
-            <p class="rsvp-sub">Чтобы мы знали, сколько стульев и<br>бокалов готовить —<br>заполните анкету до 01.09.2026</p>
-        </div>
+        <img class="rsvp-title-img" src="{% static 'images/rsvp-title.svg' %}" alt="Анкета">
+        <img class="rsvp-card-photo" src="{% static 'images/lace-frame.png' %}" alt="">
+        <img class="rsvp-subtitle-img" src="{% static 'images/rsvp-subtitle.svg' %}" alt="Чтобы мы знали, сколько стульев и бокалов готовить! Заполните анкету до 01.09.2026">
+        <img class="rsvp-labels-img" src="{% static 'images/rsvp-labels.svg' %}" alt="Ваше имя и фамилия. Будете ли вы на мероприятии? Если пьёте, то что?">
 
-        <div class="rsvp-form">
-            <form method="post" action="{% url 'index' %}">
-                {% csrf_token %}
+        <form class="rsvp-form" method="post" action="{% url 'index' %}">
+            {% csrf_token %}
 
-                <label class="main-label">Ваше имя и фамилия</label>
-                <input type="text" name="name" required placeholder="Иван Иванов">
-                {% if form.name.errors %}
-                    <ul class="errorlist">{{ form.name.errors }}</ul>
-                {% endif %}
+            <img class="rsvp-underline" src="{% static 'images/rsvp-underline.svg' %}" alt="">
+            <input type="text" name="name" required placeholder="">
+            {% if form.name.errors %}
+                <ul class="errorlist rsvp-name-errors">{{ form.name.errors }}</ul>
+            {% endif %}
 
-                <label class="main-label">Будете ли вы на мероприятии?</label>
-                {% if form.attendance.errors %}
-                    <ul class="errorlist">{{ form.attendance.errors }}</ul>
-                {% endif %}
-                <div class="checkbox-item">
-                    <input type="radio" name="attendance" value="yes" id="yes" required>
-                    <label for="yes">Обязательно буду!</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="radio" name="attendance" value="no" id="no">
-                    <label for="no">К сожалению, не смогу</label>
-                </div>
+            <input type="radio" name="attendance" value="yes" id="yes" required>
+            <label class="rsvp-option rsvp-attend-yes" for="yes"><img src="{% static 'images/attend-yes.svg' %}" alt="Обязательно буду!"></label>
+            <input type="radio" name="attendance" value="no" id="no">
+            <label class="rsvp-option rsvp-attend-no" for="no"><img src="{% static 'images/attend-no.svg' %}" alt="К сожалению, не смогу"></label>
+            {% if form.attendance.errors %}
+                <ul class="errorlist rsvp-attend-errors">{{ form.attendance.errors }}</ul>
+            {% endif %}
 
-                <label class="main-label">Если пьёте, то что:</label>
-                <div class="drinks-grid">
-                    <div class="checkbox-item">
-                        <input type="checkbox" name="drinks" value="Шампанское" id="champagne">
-                        <label for="champagne">Шампанское</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" name="drinks" value="Вино красное" id="redwine">
-                        <label for="redwine">Вино красное</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" name="drinks" value="Вино белое" id="whitewine">
-                        <label for="whitewine">Вино белое</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" name="drinks" value="Водка" id="vodka">
-                        <label for="vodka">Водка</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" name="drinks" value="Текила" id="tequila">
-                        <label for="tequila">Текила</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" name="drinks" value="Джин" id="gin">
-                        <label for="gin">Джин</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" name="drinks" value="Коньяк" id="cognac">
-                        <label for="cognac">Коньяк</label>
-                    </div>
-                </div>
-            </form>
-        </div>
-        </div>
+            <input type="checkbox" name="drinks" value="Шампанское" id="champagne">
+            <label class="rsvp-option rsvp-drink-champagne" for="champagne"><img src="{% static 'images/drink-champagne.svg' %}" alt="Шампанское"></label>
+            <input type="checkbox" name="drinks" value="Вино красное" id="redwine">
+            <label class="rsvp-option rsvp-drink-redwine" for="redwine"><img src="{% static 'images/drink-redwine.svg' %}" alt="Вино красное"></label>
+            <input type="checkbox" name="drinks" value="Вино белое" id="whitewine">
+            <label class="rsvp-option rsvp-drink-whitewine" for="whitewine"><img src="{% static 'images/drink-whitewine.svg' %}" alt="Вино белое"></label>
+            <input type="checkbox" name="drinks" value="Водка" id="vodka">
+            <label class="rsvp-option rsvp-drink-vodka" for="vodka"><img src="{% static 'images/drink-vodka.svg' %}" alt="Водка"></label>
+            <input type="checkbox" name="drinks" value="Текила" id="tequila">
+            <label class="rsvp-option rsvp-drink-tequila" for="tequila"><img src="{% static 'images/drink-tequila.svg' %}" alt="Текила"></label>
+            <input type="checkbox" name="drinks" value="Джин" id="gin">
+            <label class="rsvp-option rsvp-drink-gin" for="gin"><img src="{% static 'images/drink-gin.svg' %}" alt="Джин"></label>
+            <input type="checkbox" name="drinks" value="Коньяк" id="cognac">
+            <label class="rsvp-option rsvp-drink-cognac" for="cognac"><img src="{% static 'images/drink-cognac.svg' %}" alt="Коньяк"></label>
+            {% if form.drinks.errors %}
+                <ul class="errorlist rsvp-drinks-errors">{{ form.drinks.errors }}</ul>
+            {% endif %}
+
+            <button type="submit" class="rsvp-submit-btn">
+                <img src="{% static 'images/rsvp-bottom-text.svg' %}" alt="До встречи!">
+            </button>
+        </form>
+
+        <img class="rsvp-disco rsvp-disco-1" src="{% static 'images/disco_ball.png' %}" alt="">
+        <img class="rsvp-disco rsvp-disco-2" src="{% static 'images/disco_ball.png' %}" alt="">
     </section>
 
-    <!-- СЕКЦИЯ: КНОПКА ОТПРАВКИ + СТАТИСТИКА -->
-    <section class="section-final">
-        <p class="final-text">Заполнили анкету? Отправляйте!</p>
-        <button type="submit" class="submit-btn" onclick="document.querySelector('form').submit()">До встречи! ✦</button>
+    <!-- СЕКЦИЯ: ССЫЛКА НА СТАТИСТИКУ -->
+    <section class="section-stats-link">
         <a href="{% url 'stats' %}" class="stats-btn">📊 Статистика ответов</a>
     </section>
 
