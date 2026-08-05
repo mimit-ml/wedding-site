@@ -45,6 +45,17 @@
             margin-bottom: 32px;
         }
 
+        .messages { list-style: none; margin-bottom: 24px; }
+        .messages li {
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .messages .success { background: #e5f2e8; color: var(--green); }
+        .messages .error { background: #f7e6e5; color: var(--red); }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -92,7 +103,55 @@
             color: var(--ink);
             font-size: 1.4em;
         }
+        /* Drinks chart is horizontal (indexAxis:'y') so every drink name sits directly
+           beside its own bar — no rotated/overlapping x-axis labels to decode, and it
+           scales cleanly to more categories by growing down instead of squeezing sideways. */
         .chart-wrap { position: relative; height: 260px; }
+        #drinksChart { min-height: 100%; }
+
+        /* ===== Разбивка по напиткам (текстовый список, дублирует график цифрами) ===== */
+        .drinks-breakdown {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 16px rgba(43,38,32,0.08);
+            padding: 22px;
+            margin-bottom: 32px;
+        }
+        .drinks-breakdown h2 {
+            margin-bottom: 16px;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-style: italic;
+            color: var(--ink);
+            font-size: 1.4em;
+        }
+        .drinks-breakdown-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .drink-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: #faf7f2;
+            border-radius: 10px;
+        }
+        .drink-swatch {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex: 0 0 auto;
+        }
+        .drink-name { flex: 1; font-size: 0.92em; }
+        .drink-count {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            color: var(--burgundy);
+            font-size: 1.15em;
+        }
+        .drinks-empty { color: #b3a99a; font-size: 0.9em; text-align: center; padding: 12px; }
 
         .responses-table {
             background: #fff;
@@ -130,14 +189,60 @@
         .no { color: var(--red); font-weight: 600; }
         .empty-row td { text-align: center; color: #b3a99a; padding: 30px; }
 
+        .delete-form { display: inline; }
+        .delete-btn {
+            background: none;
+            border: 1px solid rgba(181,69,63,0.35);
+            color: var(--red);
+            border-radius: 8px;
+            width: 30px;
+            height: 30px;
+            font-size: 0.95em;
+            line-height: 1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .delete-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
+
         @media (max-width: 720px) {
             .charts-section { grid-template-columns: 1fr; }
         }
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
             .stats-grid { grid-template-columns: 1fr; }
             body { padding: 24px 12px 48px; }
             .stat-card { padding: 18px 16px; }
-            th, td { padding: 11px 12px; }
+
+            /* Stacked-card responsive table: no more sideways scrolling on phones —
+               each row becomes its own block, each cell labeled via data-label. */
+            .table-scroll { overflow-x: visible; }
+            table, thead, tbody, th, td, tr { display: block; width: 100%; min-width: 0; }
+            thead { position: absolute; left: -9999px; top: -9999px; }
+            tbody tr {
+                padding: 14px 16px;
+                border-bottom: 8px solid var(--paper);
+            }
+            tbody tr:last-child { border-bottom: none; }
+            td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 12px;
+                padding: 8px 0;
+                border-bottom: 1px dashed #efe9df;
+                text-align: right;
+            }
+            td:last-child { border-bottom: none; }
+            td::before {
+                content: attr(data-label);
+                font-size: 0.75em;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: #6b6053;
+                text-align: left;
+                flex: 0 0 auto;
+            }
+            .empty-row td { display: block; text-align: center; }
+            .empty-row td::before { content: none; }
         }
     </style>
 </head>
@@ -145,6 +250,14 @@
     <div class="container">
         <h1>Статистика ответов гостей</h1>
         <p class="subtitle">Арина &amp; Артём · 19.09.26</p>
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
 
         <div class="stats-grid">
             <div class="stat-card">
@@ -172,6 +285,21 @@
             </div>
         </div>
 
+        <div class="drinks-breakdown">
+            <h2>Напитки — подробно</h2>
+            <div class="drinks-breakdown-list">
+                {% for drink in drinks_stats %}
+                <div class="drink-row">
+                    <span class="drink-swatch" data-swatch-index="{{ forloop.counter0 }}"></span>
+                    <span class="drink-name">{{ drink.name }}</span>
+                    <span class="drink-count">{{ drink.count }}</span>
+                </div>
+                {% empty %}
+                <p class="drinks-empty">Пока никто не выбрал напитки</p>
+                {% endfor %}
+            </div>
+        </div>
+
         <div class="responses-table">
             <h2>Все ответы</h2>
             <div class="table-scroll">
@@ -182,21 +310,29 @@
                             <th>Статус</th>
                             <th>Напитки</th>
                             <th>Дата ответа</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for response in responses %}
                         <tr>
-                            <td>{{ response.name }}</td>
-                            <td class="{% if response.attendance == 'yes' %}yes{% else %}no{% endif %}">
+                            <td data-label="Имя">{{ response.name }}</td>
+                            <td data-label="Статус" class="{% if response.attendance == 'yes' %}yes{% else %}no{% endif %}">
                                 {{ response.get_attendance_display }}
                             </td>
-                            <td>{{ response.drinks|default:"—" }}</td>
-                            <td>{{ response.created_at|date:"d.m.Y H:i" }}</td>
+                            <td data-label="Напитки">{{ response.drinks|default:"—" }}</td>
+                            <td data-label="Дата ответа">{{ response.created_at|date:"d.m.Y H:i" }}</td>
+                            <td data-label="">
+                                <form class="delete-form" method="post" action="{% url 'delete_response' response.id %}" onsubmit="return rsvpConfirmDelete(this, '{{ response.name|escapejs }}')">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="password" class="delete-password-field">
+                                    <button type="submit" class="delete-btn" title="Удалить ответ">✕</button>
+                                </form>
+                            </td>
                         </tr>
                         {% empty %}
                         <tr class="empty-row">
-                            <td colspan="4">Пока нет ответов</td>
+                            <td colspan="5">Пока нет ответов</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -209,6 +345,19 @@
     {{ drinks_values|json_script:"drinks-values-data" }}
 
     <script>
+        function rsvpConfirmDelete(form, name) {
+            const pwd = prompt('Введите пароль для удаления ответа «' + name + '»:');
+            if (pwd === null || pwd === '') return false;
+            form.querySelector('.delete-password-field').value = pwd;
+            return true;
+        }
+
+        const drinkColors = ['#8297ab','#b7a0c4','#d792a8','#b7c491','#e3c265','#5c1620','#5f7590'];
+        document.querySelectorAll('.drink-swatch').forEach(el => {
+            const i = parseInt(el.dataset.swatchIndex, 10);
+            el.style.background = drinkColors[i % drinkColors.length];
+        });
+
         const drinksCtx = document.getElementById('drinksChart').getContext('2d');
         const drinksLabels = JSON.parse(document.getElementById('drinks-labels-data').textContent);
         const drinksValues = JSON.parse(document.getElementById('drinks-values-data').textContent);
@@ -220,12 +369,13 @@
                 datasets: [{
                     label: 'Количество выборов',
                     data: drinksValues,
-                    backgroundColor: ['#8297ab','#b7a0c4','#d792a8','#b7c491','#e3c265','#5c1620','#5f7590'],
+                    backgroundColor: drinksLabels.map((_, i) => drinkColors[i % drinkColors.length]),
                     borderWidth: 0,
                     borderRadius: 8
                 }]
             },
             options: {
+                indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
@@ -233,8 +383,8 @@
                     tooltip: { callbacks: { title: (items) => items[0].label } }
                 },
                 scales: {
-                    y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 } },
-                    x: { ticks: { autoSkip: false, maxRotation: 45, minRotation: 0, font: { size: 11 } } }
+                    x: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 } },
+                    y: { ticks: { autoSkip: false, font: { size: 12 } } }
                 }
             }
         });

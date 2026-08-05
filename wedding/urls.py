@@ -9,6 +9,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('success/', views.success, name='success'),
     path('stats/', views.stats, name='stats'),  # ← Добавляем статистику
+    path('stats/delete/<int:pk>/', views.delete_response, name='delete_response'),
 ]
 
 if settings.DEBUG:
